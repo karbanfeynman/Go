@@ -1,0 +1,12 @@
+<table>
+	<tr>
+		<th>ID</th>
+		<th>Name</th>
+	</tr>
+{{ range . }}
+	<tr>
+		<td>{{.Id}}</td>
+		<td>{{.Name}}</td>
+	</tr>
+{{ end }}
+</table>

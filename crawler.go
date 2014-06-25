@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"runtime"
+	"time"
 )
 
 type Fetcher interface {
@@ -19,13 +21,15 @@ func Crawl(url string, depth int, fetcher Fetcher) {
 	}
 	fmt.Printf("found: %s %q\n", url, body)
 	for _, u := range urls {
-		Crawl(u, depth-1, fetcher)
+		go Crawl(u, depth-1, fetcher)
 	}
 	return
 }
 
 func main() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
 	Crawl("http://golang.org/", 4, fetcher)
+	time.Sleep(1000)
 }
 
 type fakeFetcher map[string]*fakeResult
@@ -44,33 +48,33 @@ func (f fakeFetcher) Fetch(url string) (string, []string, error) {
 }
 
 /* fatcher is a populated fakeFetcher. */
-var fetcher = fakeFetcher {
-	"http://golang.org/": &fakeResult {
+var fetcher = fakeFetcher{
+	"http://golang.org/": &fakeResult{
 		"The Go Programming Language",
-		[]string {
+		[]string{
 			"http://golang.org/pkg/",
 			"http://golang.org/cmd/",
 		},
 	},
-	"http://golang.org/pkg/": &fakeResult {
+	"http://golang.org/pkg/": &fakeResult{
 		"Packages",
-		[]string {
+		[]string{
 			"http://golang.org/",
-      "http://golang.org/cmd/",
-      "http://golang.org/pkg/fmt/",
-      "http://golang.org/pkg/os/",
+			"http://golang.org/cmd/",
+			"http://golang.org/pkg/fmt/",
+			"http://golang.org/pkg/os/",
 		},
 	},
-	"http://golang.org/pkg/fmt/": &fakeResult {
+	"http://golang.org/pkg/fmt/": &fakeResult{
 		"Package fmt",
-		[]string {
+		[]string{
 			"http://golang.org",
 			"http://golang.org/pkg/",
 		},
 	},
-	"http://golang.org/pkg/os/": &fakeResult {
+	"http://golang.org/pkg/os/": &fakeResult{
 		"Package os",
-		[]string {
+		[]string{
 			"http://golang.org/",
 			"http://golang.org/pkg/",
 		},
