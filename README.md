@@ -16,8 +16,10 @@ Others - Use SQLite as I/O for two apps.
 
 ==
 ## License
+[The BSD 3-Clause License][bsd]
 
 [fetchbot]: https://github.com/PuerkitoBio/fetchbot
 [goquery]: https://github.com/PuerkitoBio/goquery
 [go-martini]: https://github.com/go-martini/martini
 [gophercasts]: https://gophercasts.io/lessons
+[bsd]: http://opensource.org/licenses/BSD-3-Clause
