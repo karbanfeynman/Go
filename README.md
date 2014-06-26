@@ -10,8 +10,6 @@ Others - Use SQLite as I/O for two apps.
 
 ## Changelog
 * 2014/06/26: Web crawler can read seed urls from database and save the urls fetched from webpages into database.
-* 2014/07/01
-* 
 
 
 ==
