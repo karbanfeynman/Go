@@ -1,5 +1,4 @@
 ## Web Related APP in Go
-==
 The repository includes two kinds of web APP written in Go. 
 
 Web crawler - Use [fetchbot] and [goquery]. The content of source code is based on the example of fetchbot.
@@ -10,7 +9,6 @@ Others - I choose SQLite as I/O for two apps.
 
 
 ## Changelog
-==
 * 2014/06/26 
 * 2014/07/01
 * 
