@@ -2,9 +2,9 @@
 ==
 The repository includes two kinds of web APP written in Go.
 
-Web crawler - Use [fetchbot] and [goquery]
-Web Service - Use martini
-Others - Use SQLite as I/O for two apps
+Web crawler - Use [fetchbot] and [goquery].
+Web Service - Use martini.
+Others - Use SQLite as I/O for two apps.
 
 ==
 ## License
