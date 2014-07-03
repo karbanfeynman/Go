@@ -6,9 +6,6 @@ import (
 	"github.com/martini-contrib/render"
 	_ "github.com/mattn/go-sqlite3"
 	"runtime"
-
-	//	"log"
-	//	"net/http"
 )
 
 type Users struct {
@@ -29,33 +26,42 @@ func SetupDB() *sql.DB {
 	return db
 }
 
+func handler_Root(r render.Render, db *sql.DB) {
+	rows, err := db.Query("SELECT ID, URL FROM href")
+	PanicIf(err)
+	defer rows.Close()
+
+	users := []Users{}
+	for rows.Next() {
+		u := Users{}
+		err := rows.Scan(&u.Id, &u.Name)
+		PanicIf(err)
+		users = append(users, u)
+	}
+
+	r.HTML(200, "index", nil)
+
+}
+
+/*
+func handler(r render.Render, args martini.Params) {
+}
+*/
+
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	m := martini.Classic()
 	m.Map(SetupDB())
 
 	/* set host and port */
-	//	log.Fatal(http.ListenAndServe(":8080", m))
 	m.Use(render.Renderer(render.Options{
-		Directory: "templates",
+		Directory: "templates/html5",
 		Layout:    "layout",
 	}))
-	m.Get("/", func(r render.Render, db *sql.DB) {
-		rows, err := db.Query("SELECT ID, URL FROM href")
-		PanicIf(err)
-		defer rows.Close()
+	m.Use(martini.Static("templates/html5/"))
 
-		users := []Users{}
-		for rows.Next() {
-			u := Users{}
-			err := rows.Scan(&u.Id, &u.Name)
-			PanicIf(err)
-			users = append(users, u)
-			//r.HTML(200, "table", u)
-		}
-
-		r.HTML(200, "table", users)
-	})
+	m.Get("/", handler_Root)
+	//	m.Get("/:id", handler)
 
 	m.Run()
 }
