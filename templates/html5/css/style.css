@@ -15,7 +15,8 @@ body
 { font: normal 80% Arial, Helvetica, sans-serif;
   color: #FFF;
   text-shadow: 1px 1px #000;
-  background: transparent url(../images/background.jpg) repeat;}
+/*  background: transparent url(../images/background.jpg) repeat; */
+	background-color: #050A0F}
 
 /* tell the browser to render HTML 5 elements as block */
 article, aside, figure, footer, header, hgroup, nav, section { 
@@ -302,7 +303,7 @@ footer a:hover
 
 .slideshow
 {  width: 900px;
-  height: 250px;
+  height: 600px;
   margin-left: 20px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
@@ -312,7 +313,7 @@ footer a:hover
 ul.slideshow {
   list-style: none;
   width: 900px;
-  height: 250px;
+  height: 600px;
   overflow: hidden;
   position: relative;
   margin: 20px 0 0 0;}
