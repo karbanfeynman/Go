@@ -1,13 +1,14 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 	_ "github.com/mattn/go-sqlite3"
 	"io/ioutil"
 	"runtime"
+	"os"
+	"os/exec"
 )
 
 type Users struct {
@@ -19,34 +20,15 @@ type Image struct {
 	Name string
 }
 
-func PanicIf(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
-func SetupDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "/home/karban/SQLite/user.db")
-	PanicIf(err)
-
-	return db
-}
-
-func handler_Root(r render.Render, db *sql.DB) {
-	rows, err := db.Query("SELECT ID, URL FROM href")
-	PanicIf(err)
-	defer rows.Close()
-
-	users := []Users{}
-	for rows.Next() {
-		u := Users{}
-		err := rows.Scan(&u.Id, &u.Name)
-		PanicIf(err)
-		users = append(users, u)
-	}
-
+func handler_Root(r render.Render) {
 	r.HTML(200, "index", nil)
+}
 
+func capture_image() {
+	cmd := exec.Command("gphoto2", "--capture-image")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Run()
 }
 
 func handler(r render.Render, params martini.Params) {
@@ -61,6 +43,9 @@ func handler(r render.Render, params martini.Params) {
 			fmt.Printf("[Karban]name: %s\n", i.Name)
 		}
 		r.HTML(200, params["name"], images)
+	case "capture":
+		capture_image()
+		r.HTML(200, "index", nil)
 	default:
 		r.HTML(200, params["name"], nil)
 	}
@@ -69,7 +54,6 @@ func handler(r render.Render, params martini.Params) {
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	m := martini.Classic()
-	m.Map(SetupDB())
 
 	/* set host and port */
 	m.Use(render.Renderer(render.Options{
