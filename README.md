@@ -1,23 +1,23 @@
-## Web Related APP in Go
-The repository includes two kinds of web APP written in Go. 
+## Go-CAM
+A remote controller of DSLR
 
-Web crawler - Use [fetchbot] and [goquery]. The content of source code is based on the example of fetchbot. According to the example, the app only extracts one level urls.
+This project combines with several components:
+* Raspberry Pi which runs RASPIAN connects to DSLR by USB cable. 
+* Use [gPhoto2] to control DSLR. 
+* A light-weight web api written by [go-martini] runs on Raspbery Pi 
+* combines [gPhoto2] and web-api. Therefore, DSLR can be controlled by the browser of any platform.
+* Exif-Analyser can analysis images saved in the SD card of the camera connted to Raspberry Pi.
 
-Web Service - Use [go-martini] and the extension "render" to build up a light-weight web service. Basically, I follow the lessons on [gophercasts]. So far, the web service can read data from database, and mix the template to produce a table webpage.
-
-Others - Use SQLite as I/O for two apps.
 
 
 ## Changelog
-* 2014/06/26: Web crawler can read seed urls from database and save the urls fetched from webpages into database.
+* 2014/07/27: The project starts.
 
 
 ==
 ## License
 [The BSD 3-Clause License][bsd]
 
-[fetchbot]: https://github.com/PuerkitoBio/fetchbot
-[goquery]: https://github.com/PuerkitoBio/goquery
+[gPhoto2]: http://gphoto.org/proj/
 [go-martini]: https://github.com/go-martini/martini
-[gophercasts]: https://gophercasts.io/lessons
 [bsd]: http://opensource.org/licenses/BSD-3-Clause
